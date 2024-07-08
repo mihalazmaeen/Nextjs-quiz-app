@@ -1,6 +1,6 @@
 "use client"
 
-import { fecthhUsers } from "@/app/(auth)/actions/fetchUsers"
+import { fetchUsers } from "@/app/(auth)/actions/fetchUsers";
 import Navbar from "@/components/Navbar"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -24,7 +24,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
     }
     const getCurrentUser = async () =>{
       try {
-        const response: any = await fecthhUsers()
+        const response: any = await fetchUsers();
         if (response.error)
         throw new Error(response.error.message)
       }catch(error){
