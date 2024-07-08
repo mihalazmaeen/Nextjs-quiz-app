@@ -24,6 +24,22 @@ const Quiz = ({questions,userId}:QuizProps) => {
     })
     const [timeRemaining, setTimeRemaining] = useState(30)
     const [timerRunning, setTimerRunning] = useState(false)
+
+     const startTimer = () => {
+       setTimerRunning(true);
+     };
+     const stopTimer = () => {
+       setTimerRunning(false);
+     };
+     const resetTimer = () => {
+       setTimeRemaining(30);
+     };
+     const handleTimeUp = () => {
+       stopTimer();
+       resetTimer();
+       nextQuestion();
+     };
+
     useEffect(()=>{
         let timer:NodeJS.Timeout
         if(timerRunning && timeRemaining > 0){
@@ -36,20 +52,31 @@ const Quiz = ({questions,userId}:QuizProps) => {
         return () => clearTimeout(timer)
     },[timerRunning,timeRemaining])
 
-    const startTimer = ()=>{
-        setTimerRunning(true)
+    const onAnswerSelected = (answer:string, index:number) => {
+        setChecked(true)
+        setSelectedAnswerIndex(index)
+        if(answer === correctAnswer){
+            setSelectedAnswer(answer)
+        }else{
+            setSelectedAnswer("")
+        }
     }
-    const stopTimer = ()=>{
-        setTimerRunning(false)
+
+    const nextQuestion = () => {
+        setSelectedAnswerIndex(null)
+        setResults((prev)=>
+        selectedAnswer ? {
+            ...prev,
+            score: prev.score + 1,
+            correctAnswers: prev.correctAnswers + 1
+        } : {
+            ...prev,
+            wrongAnswers: prev.wrongAnswers + 1
+        }
+        )
     }
-    const resetTimer = ()=>{
-        setTimeRemaining(30)
-    }
-    const handleTimeUp = ()=>{
-        stopTimer()
-        resetTimer()
-        nextQuestion()
-    }
+
+   
   return (
     <div className="bg-primary text-white px-4 rounded-md py-1">{timeRemaining} seconds to answer </div>
   )
