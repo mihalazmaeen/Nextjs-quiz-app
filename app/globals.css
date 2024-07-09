@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer styles {
-    .flexCol{
-        @apply flex-col
-    }
+  .flexCol {
+    @apply flex-col;
+  }
 }
